@@ -6,7 +6,7 @@ mainDiv.innerHTML = `
     <header class="app-header">
       <h1 class="app-title">Springfield DB</h1>
       <nav class="app-nav">
-        <button class="app-button" id="characters-button">Characters</button>
+        <button class="app-button button-active" id="characters-button">Characters</button>
         <button class="app-button" id="episodes-button">Episodes</button>
         <button class="app-button" id="locations-button">Locations</button>
       </nav>

@@ -39,15 +39,8 @@ characters?.results?.map((character) => {
   const characterDiv = document.createElement('div')
   characterDiv.innerHTML = `
   <div class="section-card">
-    <h2 class="section-card-title">${character.name}</h2>
-    <img class="section-card-image" src="https://cdn.thesimpsonsapi.com/200${character.portrait_path}" alt="${character.name}" />
-    <div class="section-card-content">
-      <p><strong>Age:</strong> ${character.age}</p>
-      <p><strong>Gender:</strong> ${character.gender}</p>
-      <p><strong>Occupation:</strong> ${character.occupation}</p>
-      <p><strong>Birth Date:</strong> ${character.birthdate}</p>
-      <p><strong>Status:</strong> ${character.status}</p>
-    </div>
+  <h2 class="section-card-title">${character.name}</h2>
+  <img class="section-card-image" src="https://cdn.thesimpsonsapi.com/500${character.portrait_path}" alt="${character.name}" />
   </div>
   `
   document.querySelector<HTMLDivElement>('#character-list')!.appendChild(characterDiv)
