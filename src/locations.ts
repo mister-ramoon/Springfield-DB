@@ -35,11 +35,10 @@ await getLocations()
 locations?.results?.map((location) => {
   const locationDiv = document.createElement('div')
   locationDiv.innerHTML = `
-    <h2>${location.name}</h2>
-    <img src="https://cdn.thesimpsonsapi.com/500${location.image_path}" alt="${location.name}" />
-    <p><strong>Town:</strong> ${location.town}</p>
-    <p><strong>Use:</strong> ${location.use}</p>
-    <hr />
+    <div class="section-card">
+      <h2 class="section-card-title">${location.name}</h2>
+      <img src="https://cdn.thesimpsonsapi.com/500${location.image_path}" alt="${location.name}" />
+    </div>
   `
   document.querySelector<HTMLDivElement>('#location-list')!.appendChild(locationDiv)
 })

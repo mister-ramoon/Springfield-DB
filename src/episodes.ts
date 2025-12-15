@@ -37,13 +37,11 @@ await getEpisodes()
 episodes?.results?.map((episode) => {
   const episodeDiv = document.createElement('div')
   episodeDiv.innerHTML = `
-    <h2>${episode.name}</h2>
-    <img src="https://cdn.thesimpsonsapi.com/500${episode.image_path}" alt="${episode.name}" />
-    <p><strong>Season:</strong> ${episode.season}</p>
-    <p><strong>Episode Number:</strong> ${episode.episode_number}</p>
-    <p><strong>Air Date:</strong> ${episode.airdate}</p>
-    <p><strong>Synopsis:</strong> ${episode.synopsis}</p>
-    <hr />
+    <div class="section-card">
+      <h2 class="section-card-title">${episode.name}</h2>
+      <p><strong>Season:</strong> S${episode.season} E${episode.episode_number}</p>
+      <img src="https://cdn.thesimpsonsapi.com/500${episode.image_path}" alt="${episode.name}" />
+    </div>
   `
   document.querySelector<HTMLDivElement>('#episode-list')!.appendChild(episodeDiv)
 })
