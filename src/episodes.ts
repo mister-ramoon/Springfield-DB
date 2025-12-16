@@ -1,5 +1,9 @@
 // Type Definitions
 interface episodesResponse {
+    count: number;
+    next: string | null;
+    prev: string | null;
+    pages: number;
     results: Episode[];
 }
 
@@ -15,46 +19,113 @@ interface Episode {
 
 // Variable to hold fetched episode data
 let episodes: episodesResponse | undefined
+let currentPage = 1;
 
 // Function to fetch episode data from the API
-const getEpisodes = async () => {
+const getEpisodes = async (page: number = 1) => {
   try {
     // Fetch data from The Simpsons API
-    let response = await fetch(`https://thesimpsonsapi.com/api/episodes`)
+    let response = await fetch(`https://thesimpsonsapi.com/api/episodes?page=${page}`)
 
     // Parse the JSON response
     episodes = await response.json()
+    
+    // Render episodes
+    renderEpisodes();
+    
+    // Update pagination controls
+    updatePaginationControls();
   } catch {
     // Log an error message if the fetch fails
     console.error('Failed to fetch episode data')
   }
 }
 
-// Fetch episode data when the script runs
-await getEpisodes()
+// Function to render episodes
+const renderEpisodes = () => {
+  const episodeList = document.querySelector<HTMLDivElement>('#episode-list');
+  if (!episodeList) return;
+  
+  // Clear existing episodes
+  episodeList.innerHTML = '';
+  
+  // Render episode data to the DOM
+  episodes?.results?.forEach((episode) => {
+    // Create a div element for each episode
+    const episodeDiv = document.createElement('div')
 
-// Render episode data to the DOM
-episodes?.results?.map((episode) => {
-  // Create a div element for each episode
-  const episodeDiv = document.createElement('div')
+    // Add section-card class for styling
+    episodeDiv.classList.add('section-card');
 
-  // Add section-card class for styling
-  episodeDiv.classList.add('section-card');
+    // Set the inner HTML of the episode div
+    episodeDiv.innerHTML = `
+      <h2 class="section-card-title">${episode.name}</h2>
+      <p  class="section-card-text"><strong>Season:</strong> S${episode.season} E${episode.episode_number}</p>
+      <img src="https://cdn.thesimpsonsapi.com/500${episode.image_path}" alt="${episode.name}" />
+    `
 
-  // Set the inner HTML of the episode div
-  episodeDiv.innerHTML = `
-    <h2 class="section-card-title">${episode.name}</h2>
-    <p  class="section-card-text"><strong>Season:</strong> S${episode.season} E${episode.episode_number}</p>
-    <img src="https://cdn.thesimpsonsapi.com/500${episode.image_path}" alt="${episode.name}" />
-  `
+    // Add event listener for episode selection
+    episodeDiv.addEventListener('click', async () => {
+      await selectEpisode(episode.id);
+    });
 
-  // Add event listener for episode selection
-  episodeDiv.addEventListener('click', async () => {
-    await selectEpisode(episode.id);
+    episodeList.appendChild(episodeDiv);
   });
+};
 
-  document.querySelector<HTMLDivElement>('#episode-list')!.appendChild(episodeDiv)
-})
+// Function to create pagination controls
+const createPaginationControls = () => {
+  // Check if pagination already exists
+  if (document.getElementById('episode-pagination')) return;
+  
+  const paginationDiv = document.createElement('div');
+  paginationDiv.id = 'episode-pagination';
+  paginationDiv.className = 'pagination';
+  paginationDiv.innerHTML = `
+    <button id="episode-prev-page" class="pagination-btn">Previous</button>
+    <span id="episode-page-info" class="page-info"></span>
+    <button id="episode-next-page" class="pagination-btn">Next</button>
+  `;
+  
+  const paginationContainer = document.querySelector('#episode-pagination-container');
+  paginationContainer?.appendChild(paginationDiv);
+  
+  // Add event listeners
+  document.getElementById('episode-prev-page')?.addEventListener('click', () => {
+    if (currentPage > 1) {
+      currentPage--;
+      getEpisodes(currentPage);
+    }
+  });
+  
+  document.getElementById('episode-next-page')?.addEventListener('click', () => {
+    if (episodes && currentPage < episodes.pages) {
+      currentPage++;
+      getEpisodes(currentPage);
+    }
+  });
+};
+
+// Function to update pagination controls
+const updatePaginationControls = () => {
+  const prevBtn = document.getElementById('episode-prev-page') as HTMLButtonElement;
+  const nextBtn = document.getElementById('episode-next-page') as HTMLButtonElement;
+  const pageInfo = document.getElementById('episode-page-info');
+  
+  if (prevBtn) prevBtn.disabled = !episodes?.prev;
+  if (nextBtn) nextBtn.disabled = !episodes?.next;
+  if (pageInfo) pageInfo.textContent = `Page ${currentPage} of ${episodes?.pages ?? 0}`;
+};
+
+// Fetch episode data when the script runs
+await getEpisodes(currentPage);
+
+// Create pagination controls
+createPaginationControls();
+
+// Update pagination controls initially
+updatePaginationControls();
+
 
 // Variable to select an episode
 let selectedEpisode: Episode | undefined = undefined;

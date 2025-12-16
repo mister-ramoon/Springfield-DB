@@ -29,15 +29,25 @@ body {
   display: flex;
   place-items: center;
   min-width: 320px;
-  min-height: 100vh;
   background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
   background-attachment: fixed;
 }
 
-#app {
+html, body  {
+  width: 100%;
+  height: 100%;
+  font-size: 16px;
+}
+
+#app, .app-container {
   width: 100%;
   animation: fadeIn 0.6s ease-in-out;
-  height: 100vh;
+  height: 100%;
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
 }
 
 @keyframes fadeIn {
@@ -500,6 +510,52 @@ body {
   box-shadow: var(--shadow-md);
 }
 
+/* ========== PAGINATION STYLES ========== */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin: 2rem 0;
+}
+
+.pagination-btn {
+  padding: 0.5rem 1rem;
+  border: 1px solid #ccc;
+  background: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.pagination-btn:hover:not(:disabled) {
+  background: #f0f0f0;
+}
+
+.pagination-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.page-info {
+  font-weight: bold;
+}
+
+/* ========== FOOTER ========== */
+.app-footer {
+  text-align: center;
+  padding: 1rem;
+  font-size: 0.9rem;
+  color: var(--color-gray);
+  font-family: var(--font-family-body);
+  background: linear-gradient(135deg, var(--color-yellow) 0%, var(--color-yellow-light) 100%);
+  box-shadow: var(--shadow-md);
+  border-top-left-radius: 2rem;
+  border-top-right-radius: 2rem;
+  width: fit-content;
+  margin: 0 auto;
+}
+
 /* ========== RESPONSIVE DESIGN ========== */
 
 /* Tablets and larger screens */
@@ -520,6 +576,7 @@ body {
 
   .app-main {
     padding: 2rem;
+    padding-bottom: 0;
   }
 
   .app-section {

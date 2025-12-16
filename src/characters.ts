@@ -1,5 +1,9 @@
 // Type Definitions
 interface CharacterResponse {
+    count: number;
+    next: string | null;
+    prev: string | null;
+    pages: number;
     results: Character[];
 }
 interface Character {
@@ -17,45 +21,111 @@ interface Character {
 
 // Variable to hold fetched character data
 let characters: CharacterResponse | undefined
+let currentPage = 1;
 
 // Function to fetch character data from the API
-const getCharacters = async () => {
+const getCharacters = async (page: number = 1) => {
   try {
     // Fetch data from The Simpsons API
-    let response = await fetch(`https://thesimpsonsapi.com/api/characters`)
+    let response = await fetch(`https://thesimpsonsapi.com/api/characters?page=${page}`)
 
     // Parse the JSON response
     characters = await response.json()
+    
+    // Render characters
+    renderCharacters();
+    
+    // Update pagination controls
+    updatePaginationControls();
   } catch {
     // Log an error message if the fetch fails
     console.error('Failed to fetch character data')
   }
 }
 
-// Fetch character data when the script runs
-await getCharacters()
+// Function to render characters
+const renderCharacters = () => {
+  const characterList = document.querySelector<HTMLDivElement>('#character-list');
+  if (!characterList) return;
+  
+  // Clear existing characters
+  characterList.innerHTML = '';
+  
+  // Render character data to the DOM
+  characters?.results?.forEach((character) => {
+    // Create a div element for each character
+    const characterDiv = document.createElement('div')
 
-// Render character data to the DOM
-characters?.results?.map((character) => {
-  // Create a div element for each character
-  const characterDiv = document.createElement('div')
+    // Add section-card class for styling
+    characterDiv.classList.add('section-card');
 
-  // Add section-card class for styling
-  characterDiv.classList.add('section-card');
+    // Set the inner HTML of the character div
+    characterDiv.innerHTML = `
+      <h2 class="section-card-title">${character.name}</h2>
+      <img src="https://cdn.thesimpsonsapi.com/500${character.portrait_path}" alt="${character.name}" />
+    `
 
-  // Set the inner HTML of the character div
-  characterDiv.innerHTML = `
-    <h2 class="section-card-title">${character.name}</h2>
-    <img src="https://cdn.thesimpsonsapi.com/500${character.portrait_path}" alt="${character.name}" />
-  `
+    // Add event listener for character selection
+    characterDiv.addEventListener('click', async () => {
+      await selectCharacter(character.id);
+    });
 
-  // Add event listener for character selection
-  characterDiv.addEventListener('click', async () => {
-    await selectCharacter(character.id);
+    characterList.appendChild(characterDiv);
   });
+};
 
-  document.querySelector<HTMLDivElement>('#character-list')!.appendChild(characterDiv)
-})
+// Function to create pagination controls
+const createPaginationControls = () => {
+  // Check if pagination already exists
+  if (document.getElementById('character-pagination')) return;
+  
+  const paginationDiv = document.createElement('div');
+  paginationDiv.id = 'character-pagination';
+  paginationDiv.className = 'pagination';
+  paginationDiv.innerHTML = `
+    <button id="character-prev-page" class="pagination-btn">Previous</button>
+    <span id="character-page-info" class="page-info"></span>
+    <button id="character-next-page" class="pagination-btn">Next</button>
+  `;
+  
+  const paginationContainer = document.querySelector('#character-pagination-container');
+  paginationContainer?.appendChild(paginationDiv);
+  
+  // Add event listeners
+  document.getElementById('character-prev-page')?.addEventListener('click', () => {
+    if (currentPage > 1) {
+      currentPage--;
+      getCharacters(currentPage);
+    }
+  });
+  
+  document.getElementById('character-next-page')?.addEventListener('click', () => {
+    if (characters && currentPage < characters.pages) {
+      currentPage++;
+      getCharacters(currentPage);
+    }
+  });
+};
+
+// Function to update pagination controls
+const updatePaginationControls = () => {
+  const prevBtn = document.getElementById('character-prev-page') as HTMLButtonElement;
+  const nextBtn = document.getElementById('character-next-page') as HTMLButtonElement;
+  const pageInfo = document.getElementById('character-page-info');
+  
+  if (prevBtn) prevBtn.disabled = !characters?.prev;
+  if (nextBtn) nextBtn.disabled = !characters?.next;
+  if (pageInfo) pageInfo.textContent = `Page ${currentPage} of ${characters?.pages ?? 0}`;
+};
+
+// Fetch character data when the script runs
+await getCharacters(currentPage);
+
+// Create pagination controls
+createPaginationControls();
+
+// Update pagination controls initially
+updatePaginationControls();
 
 // Variable to select a character
 let selectedCharacter: Character | undefined

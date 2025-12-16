@@ -2,6 +2,7 @@ import './style.css';
 
 // Define the main structure of the application
 let mainDiv = document.createElement('div');
+mainDiv.className = 'app-container';
 mainDiv.innerHTML = `
     <header class="app-header">
       <h1 class="app-title">Springfield DB</h1>
@@ -12,11 +13,22 @@ mainDiv.innerHTML = `
       </nav>
     </header>
     <main class="app-main">
-      <div id="character-list" class="app-section">
+      <div id="character-section" class="section-container">
+        <div id="character-list" class="app-section"></div>
+        <div id="character-pagination-container"></div>
       </div>
-      <div id="episode-list" class="app-section"></div>
-      <div id="location-list" class="app-section"></div>
+      <div id="episode-section" class="section-container" style="display: none;">
+        <div id="episode-list" class="app-section"></div>
+        <div id="episode-pagination-container"></div>
+      </div>
+      <div id="location-section" class="section-container" style="display: none;">
+        <div id="location-list" class="app-section"></div>
+        <div id="location-pagination-container"></div>
+      </div>
     </main>
+    <footer class="app-footer">
+      <p class="footer-text">Developed by Ramón Ruiz and coffee ☕</p>
+    </footer>
 `;
 document.querySelector<HTMLDivElement>('#app')!.appendChild(mainDiv);
 
@@ -43,11 +55,11 @@ document.querySelector<HTMLButtonElement>('#characters-button')!.addEventListene
     await loadModule('characters');
 
     // Show character section
-    document.querySelector<HTMLDivElement>('#character-list')!.style.display = 'grid';
+    document.querySelector<HTMLDivElement>('#character-section')!.style.display = 'block';
 
-    // Clear other sections
-    document.querySelector<HTMLDivElement>('#episode-list')!.style.display = 'none';
-    document.querySelector<HTMLDivElement>('#location-list')!.style.display = 'none';
+    // Hide other sections
+    document.querySelector<HTMLDivElement>('#episode-section')!.style.display = 'none';
+    document.querySelector<HTMLDivElement>('#location-section')!.style.display = 'none';
 
     // Active Button
     document.querySelector<HTMLButtonElement>('#characters-button')!.classList.add('button-active');
@@ -59,11 +71,11 @@ document.querySelector<HTMLButtonElement>('#episodes-button')!.addEventListener(
     await loadModule('episodes');
 
     // Show episode section
-    document.querySelector<HTMLDivElement>('#episode-list')!.style.display = 'grid';
+    document.querySelector<HTMLDivElement>('#episode-section')!.style.display = 'block';
 
-    // Clear other sections
-    document.querySelector<HTMLDivElement>('#character-list')!.style.display = 'none';
-    document.querySelector<HTMLDivElement>('#location-list')!.style.display = 'none';
+    // Hide other sections
+    document.querySelector<HTMLDivElement>('#character-section')!.style.display = 'none';
+    document.querySelector<HTMLDivElement>('#location-section')!.style.display = 'none';
 
     // Active Button
     document.querySelector<HTMLButtonElement>('#episodes-button')!.classList.add('button-active');
@@ -75,11 +87,11 @@ document.querySelector<HTMLButtonElement>('#locations-button')!.addEventListener
     await loadModule('locations');
 
     // Show location section
-    document.querySelector<HTMLDivElement>('#location-list')!.style.display = 'grid';
+    document.querySelector<HTMLDivElement>('#location-section')!.style.display = 'block';
 
-    // Clear other sections
-    document.querySelector<HTMLDivElement>('#character-list')!.style.display = 'none';
-    document.querySelector<HTMLDivElement>('#episode-list')!.style.display = 'none';
+    // Hide other sections
+    document.querySelector<HTMLDivElement>('#character-section')!.style.display = 'none';
+    document.querySelector<HTMLDivElement>('#episode-section')!.style.display = 'none';
 
     // Active Button
     document.querySelector<HTMLButtonElement>('#locations-button')!.classList.add('button-active');
