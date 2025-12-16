@@ -63,7 +63,7 @@ const renderLocations = () => {
     locationDiv.classList.add('section-card');
     locationDiv.innerHTML = `
       <h2 class="section-card-title">${location.name}</h2>
-      <img src="https://cdn.thesimpsonsapi.com/500${location.image_path}" alt="${location.name}" loading="lazy" decoding="async" />
+      <img src="https://cdn.thesimpsonsapi.com/500${location.image_path}" alt="${location.name}" width="500" height="281" loading="lazy" decoding="async" />
     `
     locationList.appendChild(locationDiv);
   });

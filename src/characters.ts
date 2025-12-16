@@ -72,7 +72,7 @@ const renderCharacters = () => {
     // Set the inner HTML of the character div
     characterDiv.innerHTML = `
       <h2 class="section-card-title">${character.name}</h2>
-      <img src="https://cdn.thesimpsonsapi.com/500${character.portrait_path}" alt="${character.name}" />
+      <img src="https://cdn.thesimpsonsapi.com/500${character.portrait_path}" alt="${character.name}" width="500" height="500" loading="lazy" decoding="async" />
     `
 
     // Add event listener for character selection
@@ -227,8 +227,11 @@ const closeModal = () => {
 
 // Function to populate modal with character data
 const populateModal = (character: Character) => {
-  document.getElementById('modal-image')?.setAttribute('src', `https://cdn.thesimpsonsapi.com/500${character.portrait_path}`);
-  document.getElementById('modal-image')?.setAttribute('alt', character.name);
+  const modalImage = document.getElementById('modal-image');
+  modalImage?.setAttribute('src', `https://cdn.thesimpsonsapi.com/500${character.portrait_path}`);
+  modalImage?.setAttribute('alt', character.name);
+  modalImage?.setAttribute('width', '500');
+  modalImage?.setAttribute('height', '500');
   
   const modalName = document.getElementById('modal-name');
   if (modalName) modalName.textContent =  character?.name;

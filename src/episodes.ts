@@ -71,7 +71,7 @@ const renderEpisodes = () => {
     episodeDiv.innerHTML = `
       <h2 class="section-card-title">${episode.name}</h2>
       <p  class="section-card-text"><strong>Season:</strong> S${episode.season} E${episode.episode_number}</p>
-      <img src="https://cdn.thesimpsonsapi.com/500${episode.image_path}" alt="${episode.name}" />
+      <img src="https://cdn.thesimpsonsapi.com/500${episode.image_path}" alt="${episode.name}" width="500" height="281" loading="lazy" decoding="async" />
     `
 
     // Add event listener for episode selection
@@ -211,8 +211,11 @@ const closeModal = () => {
 
 // Function to populate modal with episode data
 const populateModal = (episode: Episode) => {
-  document.getElementById('episode-modal-image')?.setAttribute('src', `https://cdn.thesimpsonsapi.com/500${episode.image_path}`);
-  document.getElementById('episode-modal-image')?.setAttribute('alt', episode.name);
+  const modalImage = document.getElementById('episode-modal-image');
+  modalImage?.setAttribute('src', `https://cdn.thesimpsonsapi.com/500${episode.image_path}`);
+  modalImage?.setAttribute('alt', episode.name);
+  modalImage?.setAttribute('width', '500');
+  modalImage?.setAttribute('height', '281');
   
   const modalName = document.getElementById('episode-modal-name');
   if (modalName) modalName.textContent = episode?.name;
