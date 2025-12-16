@@ -12,7 +12,8 @@ mainDiv.innerHTML = `
       </nav>
     </header>
     <main class="app-main">
-      <div id="character-list" class="app-section"></div>
+      <div id="character-list" class="app-section">
+      </div>
       <div id="episode-list" class="app-section"></div>
       <div id="location-list" class="app-section"></div>
     </main>
