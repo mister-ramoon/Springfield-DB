@@ -449,6 +449,10 @@ body {
   color: var(--color-black);
 }
 
+.modal-description {
+  height: fit-content;
+}
+
 .modal-description,
 .modal-phrases {
   background: var(--color-white);

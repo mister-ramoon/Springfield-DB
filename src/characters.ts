@@ -43,7 +43,6 @@ characters?.results?.map((character) => {
   // Add section-card class for styling
   characterDiv.classList.add('section-card');
 
-
   // Set the inner HTML of the character div
   characterDiv.innerHTML = `
     <h2 class="section-card-title">${character.name}</h2>
