@@ -36,8 +36,8 @@ locations?.results?.map((location) => {
   const locationDiv = document.createElement('div')
   locationDiv.classList.add('section-card');
   locationDiv.innerHTML = `
-      <h2 class="section-card-title">${location.name}</h2>
-      <img src="https://cdn.thesimpsonsapi.com/500${location.image_path}" alt="${location.name}" />
+    <h2 class="section-card-title">${location.name}</h2>
+    <img src="https://cdn.thesimpsonsapi.com/500${location.image_path}" alt="${location.name}" />
   `
   document.querySelector<HTMLDivElement>('#location-list')!.appendChild(locationDiv)
 })

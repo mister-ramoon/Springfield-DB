@@ -37,11 +37,10 @@ await getCharacters()
 // Render character data to the DOM
 characters?.results?.map((character) => {
   const characterDiv = document.createElement('div')
+    characterDiv.classList.add('section-card');
   characterDiv.innerHTML = `
-  <div class="section-card">
-  <h2 class="section-card-title">${character.name}</h2>
-  <img class="section-card-image" src="https://cdn.thesimpsonsapi.com/500${character.portrait_path}" alt="${character.name}" />
-  </div>
+    <h2 class="section-card-title">${character.name}</h2>
+    <img src="https://cdn.thesimpsonsapi.com/500${character.portrait_path}" alt="${character.name}" />
   `
   document.querySelector<HTMLDivElement>('#character-list')!.appendChild(characterDiv)
 })
