@@ -21,8 +21,18 @@ interface Episode {
 let episodes: episodesResponse | undefined
 let currentPage = 1;
 
+// Function to show loading spinner
+const showLoading = () => {
+  const episodeList = document.querySelector<HTMLDivElement>('#episode-list');
+  if (!episodeList) return;
+  episodeList.innerHTML = '<div class="loading-container"><div class="spinner"></div></div>';
+};
+
 // Function to fetch episode data from the API
 const getEpisodes = async (page: number = 1) => {
+  // Show loading indicator
+  showLoading();
+  
   try {
     // Fetch data from The Simpsons API
     let response = await fetch(`https://thesimpsonsapi.com/api/episodes?page=${page}`)

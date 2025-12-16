@@ -23,8 +23,18 @@ interface Character {
 let characters: CharacterResponse | undefined
 let currentPage = 1;
 
+// Function to show loading spinner
+const showLoading = () => {
+  const characterList = document.querySelector<HTMLDivElement>('#character-list');
+  if (!characterList) return;
+  characterList.innerHTML = '<div class="loading-container"><div class="spinner"></div></div>';
+};
+
 // Function to fetch character data from the API
 const getCharacters = async (page: number = 1) => {
+  // Show loading indicator
+  showLoading();
+  
   try {
     // Fetch data from The Simpsons API
     let response = await fetch(`https://thesimpsonsapi.com/api/characters?page=${page}`)

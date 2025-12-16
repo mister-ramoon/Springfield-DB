@@ -19,8 +19,18 @@ interface Location {
 let locations: LocationsResponse | undefined
 let currentPage = 1;
 
+// Function to show loading spinner
+const showLoading = () => {
+  const locationList = document.querySelector<HTMLDivElement>('#location-list');
+  if (!locationList) return;
+  locationList.innerHTML = '<div class="loading-container"><div class="spinner"></div></div>';
+};
+
 // Function to fetch location data from the API
 const getLocations = async (page: number = 1) => {
+  // Show loading indicator
+  showLoading();
+  
   try {
     // Fetch data from The Simpsons API
     let response = await fetch(`https://thesimpsonsapi.com/api/locations?page=${page}`)
@@ -53,7 +63,7 @@ const renderLocations = () => {
     locationDiv.classList.add('section-card');
     locationDiv.innerHTML = `
       <h2 class="section-card-title">${location.name}</h2>
-      <img src="https://cdn.thesimpsonsapi.com/500${location.image_path}" alt="${location.name}" />
+      <img src="https://cdn.thesimpsonsapi.com/500${location.image_path}" alt="${location.name}" loading="lazy" decoding="async" />
     `
     locationList.appendChild(locationDiv);
   });
@@ -111,14 +121,3 @@ createPaginationControls();
 
 // Update pagination controls initially
 updatePaginationControls();
-
-// Render location data to the DOM
-locations?.results?.map((location) => {
-  const locationDiv = document.createElement('div')
-  locationDiv.classList.add('section-card');
-  locationDiv.innerHTML = `
-    <h2 class="section-card-title">${location.name}</h2>
-    <img src="https://cdn.thesimpsonsapi.com/500${location.image_path}" alt="${location.name}" />
-  `
-  document.querySelector<HTMLDivElement>('#location-list')!.appendChild(locationDiv)
-})

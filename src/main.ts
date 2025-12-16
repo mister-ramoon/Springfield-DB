@@ -27,6 +27,7 @@ mainDiv.innerHTML = `
       </div>
     </main>
     <footer class="app-footer">
+      <!-- TODO: add your own portfolio link -->
       <p class="footer-text">Developed by Ramón Ruiz and coffee ☕</p>
     </footer>
 `;
@@ -52,14 +53,30 @@ await loadModule('characters');
 
 // Event listeners for navigation buttons
 document.querySelector<HTMLButtonElement>('#characters-button')!.addEventListener('click', async () => {
+    // Fade out current section
+    const sections = document.querySelectorAll<HTMLDivElement>('.section-container');
+    sections.forEach(section => {
+        section.style.opacity = '0';
+        section.style.transform = 'translateY(20px)';
+    });
+    
+    await new Promise(resolve => setTimeout(resolve, 200));
+    
     await loadModule('characters');
 
     // Show character section
-    document.querySelector<HTMLDivElement>('#character-section')!.style.display = 'block';
+    const characterSection = document.querySelector<HTMLDivElement>('#character-section')!;
+    characterSection.style.display = 'block';
 
     // Hide other sections
     document.querySelector<HTMLDivElement>('#episode-section')!.style.display = 'none';
     document.querySelector<HTMLDivElement>('#location-section')!.style.display = 'none';
+
+    // Fade in
+    setTimeout(() => {
+        characterSection.style.opacity = '1';
+        characterSection.style.transform = 'translateY(0)';
+    }, 50);
 
     // Active Button
     document.querySelector<HTMLButtonElement>('#characters-button')!.classList.add('button-active');
@@ -68,14 +85,30 @@ document.querySelector<HTMLButtonElement>('#characters-button')!.addEventListene
 });
 
 document.querySelector<HTMLButtonElement>('#episodes-button')!.addEventListener('click', async () => {
+    // Fade out current section
+    const sections = document.querySelectorAll<HTMLDivElement>('.section-container');
+    sections.forEach(section => {
+        section.style.opacity = '0';
+        section.style.transform = 'translateY(20px)';
+    });
+    
+    await new Promise(resolve => setTimeout(resolve, 200));
+    
     await loadModule('episodes');
 
     // Show episode section
-    document.querySelector<HTMLDivElement>('#episode-section')!.style.display = 'block';
+    const episodeSection = document.querySelector<HTMLDivElement>('#episode-section')!;
+    episodeSection.style.display = 'block';
 
     // Hide other sections
     document.querySelector<HTMLDivElement>('#character-section')!.style.display = 'none';
     document.querySelector<HTMLDivElement>('#location-section')!.style.display = 'none';
+
+    // Fade in
+    setTimeout(() => {
+        episodeSection.style.opacity = '1';
+        episodeSection.style.transform = 'translateY(0)';
+    }, 50);
 
     // Active Button
     document.querySelector<HTMLButtonElement>('#episodes-button')!.classList.add('button-active');
@@ -84,14 +117,30 @@ document.querySelector<HTMLButtonElement>('#episodes-button')!.addEventListener(
 });
 
 document.querySelector<HTMLButtonElement>('#locations-button')!.addEventListener('click', async () => {
+    // Fade out current section
+    const sections = document.querySelectorAll<HTMLDivElement>('.section-container');
+    sections.forEach(section => {
+        section.style.opacity = '0';
+        section.style.transform = 'translateY(20px)';
+    });
+    
+    await new Promise(resolve => setTimeout(resolve, 200));
+    
     await loadModule('locations');
 
     // Show location section
-    document.querySelector<HTMLDivElement>('#location-section')!.style.display = 'block';
+    const locationSection = document.querySelector<HTMLDivElement>('#location-section')!;
+    locationSection.style.display = 'block';
 
     // Hide other sections
     document.querySelector<HTMLDivElement>('#character-section')!.style.display = 'none';
     document.querySelector<HTMLDivElement>('#episode-section')!.style.display = 'none';
+
+    // Fade in
+    setTimeout(() => {
+        locationSection.style.opacity = '1';
+        locationSection.style.transform = 'translateY(0)';
+    }, 50);
 
     // Active Button
     document.querySelector<HTMLButtonElement>('#locations-button')!.classList.add('button-active');
