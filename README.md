@@ -114,10 +114,6 @@ Contributions are welcome! Feel free to:
 - Suggest new features
 - Submit pull requests
 
-## License
-
-This project is private and for educational/portfolio purposes.
-
 ## Credits
 
 - Developed by Ramón Ruiz
